@@ -46,7 +46,7 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" , "fix2" ]
   pull_request:
 
 permissions:
@@ -68,14 +68,33 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: configuration of AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AMZACCESSID }}
+        aws-secret-access-key: ${{ secrets.AMZACCESSKEY }}
+        aws-region: us-east-2
+
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+    # tf Version
+    - name: Tf version
+      run: terraform --version ; uname
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Get Secrets
+      run: 
+        echo ${{ secrets.AMZACCESSKEY }}
+
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
+      env: 
+        ACCESSID: ${{ secrets.AMZACCESSID }}
+        ACCESSKEY: ${{ secrets.AMZACCESSKEY }}
       run: terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
