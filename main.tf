@@ -1,3 +1,8 @@
+resource "aws_s3_bucket" "demos3" {
+    bucket = "simplebucket" 
+    acl = "private"   
+}
+
 # resource "aws_nat_gateway" "public_nat_gateway_b" {
 #   subnet_id     = aws_subnet.public-subnet-b.id
 #   allocation_id = aws_eip.nat_b.id
