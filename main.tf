@@ -1,8 +1,8 @@
-resource "null_resource" "example" {
-  triggers = {
-    value = "A example resource that does nothing!"
-  }
-}
+# resource "null_resource" "example" {
+#   triggers = {
+#     value = "A example resource that does nothing!"
+#   }
+# }
 # resource "aws_nat_gateway" "public_nat_gateway_b" {
 #   subnet_id     = aws_subnet.public-subnet-b.id
 #   allocation_id = aws_eip.nat_b.id
