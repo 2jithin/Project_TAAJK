@@ -29,7 +29,7 @@ resource "aws_network_interface" "foo" {
 resource "aws_instance" "foo" {
   ami           = "ami-089a545a9ed9893b6" # us-east-2
   instance_type = "t2.micro"
-}
+
 
   network_interface {
     network_interface_id = aws_network_interface.foo.id
@@ -39,3 +39,4 @@ resource "aws_instance" "foo" {
   credit_specification {
     cpu_credits = "unlimited"
   }
+}
