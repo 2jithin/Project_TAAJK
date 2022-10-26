@@ -1,18 +1,18 @@
-# terraform {
-#   required_providers {
-#     aws = {
-#       source  = "hashicorp/aws",
-#       version = "= 3.3.0"
-#     }
-#   }
-#   cloud {
-#     organization = "taajk"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws",
+      version = "= 3.3.0"
+    }
+  }
+  cloud {
+    organization = "taajk"
 
-#     workspaces {
-#       name = "Project_TAAJK"
-#     }
-#   }
-# }
+    workspaces {
+      name = "Project_TAAJK"
+    }
+  }
+}
 
 
 # provider "aws" {

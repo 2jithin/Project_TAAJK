@@ -1,24 +1,8 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws",
-      version = "= 3.3.0"
-    }
-  }
-  cloud {
-    organization = "taajk"
-
-    workspaces {
-      name = "Project_TAAJK"
-    }
+resource "null_resource" "example" {
+  triggers = {
+    value = "A example resource that does nothing!"
   }
 }
-
-resource "aws_s3_bucket" "demos3" {
-    bucket = "simplebucket" 
-    acl = "private"   
-}
-
 # resource "aws_nat_gateway" "public_nat_gateway_b" {
 #   subnet_id     = aws_subnet.public-subnet-b.id
 #   allocation_id = aws_eip.nat_b.id
