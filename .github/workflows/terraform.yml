@@ -87,19 +87,16 @@ jobs:
 
     # tf Version
     - name: Tf version
-      run: terraform --version ; uname
+      run: terraform --version
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      env: 
-        ACCESSID: ${{ secrets.AMZACCESSID }}
-        ACCESSKEY: ${{ secrets.AMZACCESSKEY }}
       run: terraform init
 
-    - name: Terraform Validate
-      id: Validate
-      uses: terraform Validate -no-color
+    # - name: Terraform Validate
+    #   id: Validate
+    #   uses: terraform Validate -no-color
 
 
     # Checks that all Terraform configuration files adhere to a canonical format
@@ -108,7 +105,6 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      id: plan
       run: terraform plan -input=false
     
     - name: Terraform Plan Status
