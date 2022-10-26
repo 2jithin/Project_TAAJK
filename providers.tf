@@ -4,9 +4,6 @@ terraform {
       source  = "hashicorp/aws",
       version = "= 3.3.0"
     }
-    random = {
-      sousource = "hashicorp/random"
-    }
   }
   cloud {
     organization = "taajk"
