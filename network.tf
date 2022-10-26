@@ -53,15 +53,15 @@ resource "aws_subnet" "public-subnet-b" {
   }
 }
 
-# Create elastic IP
+# # Create elastic IP
 
 
-resource "aws_eip" "elasticip" {
-  instance = aws_instance.foo.id
-  vpc = true
-}
-resource "aws_eip_association" "eip_assoc" {
-  instance_id   = aws_instance.foo.id
-  allocation_id = aws_eip.elasticip.allocation_id
-}
+# resource "aws_eip" "elasticip" {
+#   instance = aws_instance.foo.id
+#   vpc = true
+# }
+# resource "aws_eip_association" "eip_assoc" {
+#   instance_id   = aws_instance.foo.id
+#   allocation_id = aws_eip.elasticip.allocation_id
+# }
 
