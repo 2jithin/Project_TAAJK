@@ -40,3 +40,28 @@ resource "aws_instance" "foo" {
     cpu_credits = "unlimited"
   }
 }
+
+## PUBLIC SUBNET
+
+resource "aws_subnet" "public-subnet-b" {
+  vpc_id            = aws_vpc.my_vpc1.id
+  cidr_block        = var.public_subnet_cidr
+  availability_zone = "us-east-2b"
+
+  tags = {
+    Name = "tf-example"
+  }
+}
+
+# Create elastic IP
+
+
+resource "aws_eip" "elasticip" {
+  instance = aws_instance.foo.id
+  vpc = true
+}
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.foo.id
+  allocation_id = aws_eip.elasticip.allocation_id
+}
+
