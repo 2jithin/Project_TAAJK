@@ -10,7 +10,6 @@ terraform {
 
     workspaces {
       name = "Project_TAAJK"
-      id = "Project_TAAJK"
     }
   }
 }
