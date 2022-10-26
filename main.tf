@@ -1,3 +1,19 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws",
+      version = "= 3.3.0"
+    }
+  }
+  cloud {
+    organization = "taajk"
+
+    workspaces {
+      name = "Project_TAAJK"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "demos3" {
     bucket = "simplebucket" 
     acl = "private"   
