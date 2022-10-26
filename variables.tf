@@ -19,6 +19,6 @@ variable "vpc_cidr_block" {
 variable "availability_zone" {
   description = "regionname"
   type        = string
-  default     = "us-east-2"
+  default     = "us-east-2a"
 }
 
