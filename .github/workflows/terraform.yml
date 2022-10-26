@@ -46,7 +46,7 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "main" , "network" ]
+    branches: [ "main" , "network" , "setup-public-ip-and-subnet" ]
   pull_request:
 
 permissions:
