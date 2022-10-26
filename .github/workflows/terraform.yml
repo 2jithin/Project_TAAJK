@@ -60,7 +60,7 @@ jobs:
     env:
         AWS_ACCESS_KEY_ID:  ${{ secrets.AMZACCESSID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AMZACCESSKEY }}
-        #aws-region: ${{ us-east-2 }}
+        aws-region: "us-east-2"
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
