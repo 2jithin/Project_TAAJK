@@ -1,6 +1,5 @@
 resource "aws_instance" "t2-7ff2172e" {
   provider                    = aws.us-east-1
-  name                        = "t2medium_use1a"
 
   user_data                   = <<-EOF
   #!/bin/bash
@@ -24,6 +23,7 @@ EOF
   }
 
   tags = {
+    Name                  = "t2medium_use1a"
     "Brainboard Template" = "true"
   }
 
@@ -160,7 +160,6 @@ resource "aws_key_pair" "default_key_pair" {
 
 resource "aws_instance" "t2-bastion" {
   provider                    = aws.us-east-1
-  name                        = "bastion_instance"
   subnet_id                   = aws_subnet.default_subnet.id
   source_dest_check           = true
   monitoring                  = true
@@ -178,6 +177,7 @@ resource "aws_instance" "t2-bastion" {
   }
 
   tags = {
+    Name                  = "bastion_instance"
     "Brainboard Template" = "true"
   }
 
