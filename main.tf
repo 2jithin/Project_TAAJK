@@ -1,5 +1,6 @@
 resource "aws_instance" "t2-7ff2172e" {
-  provider = aws.us-east-1
+  provider                    = aws.us-east-1
+  name                        = "t2medium_use1a"
 
   user_data                   = <<-EOF
   #!/bin/bash
@@ -149,7 +150,7 @@ resource "aws_internet_gateway" "default_gtw" {
 
 resource "aws_key_pair" "default_key_pair" {
   provider = aws.us-east-1
-
+  key_name = "mykey"
   public_key = var.public_key
 
   tags = {
@@ -158,8 +159,8 @@ resource "aws_key_pair" "default_key_pair" {
 }
 
 resource "aws_instance" "t2-bastion" {
-  provider = aws.us-east-1
-
+  provider                    = aws.us-east-1
+  name                        = "bastion_instance"
   subnet_id                   = aws_subnet.default_subnet.id
   source_dest_check           = true
   monitoring                  = true
