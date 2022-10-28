@@ -46,7 +46,7 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "main" , "network" ]
+    branches: [ "main" , "network" , "setup-public-ip-and-subnet" , "jenkins-Architecuture-Aws" ]
   pull_request:
 
 permissions:
@@ -72,6 +72,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
     - name: configuration of AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -79,11 +85,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AMZACCESSKEY }}
         aws-region: us-east-2
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
 
     # tf Version
     - name: Tf version
