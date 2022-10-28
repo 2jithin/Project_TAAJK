@@ -35,7 +35,7 @@ variable "workers-count" {
 
 variable "zone-id" {
   type    = string
-  default = "brainboard.co"
+  default = "project_taajk.co"
 }
 
 variable "external_ip" {

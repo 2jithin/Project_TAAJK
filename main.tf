@@ -6,7 +6,7 @@ resource "aws_subnet" "subnet_1" {
   availability_zone = "us-east-2b"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -18,7 +18,7 @@ resource "aws_subnet" "subnet_2" {
   availability_zone = "us-east-2b"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -30,7 +30,7 @@ resource "aws_subnet" "subnet_1_oregon" {
   availability_zone = "us-west-2a"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -42,7 +42,7 @@ resource "aws_vpc" "vpc_master_us_west_2" {
   cidr_block           = "192.168.0.0/16"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "matts-worker-vpc"
   }
 }
@@ -55,7 +55,7 @@ resource "aws_vpc" "vpc_master" {
   cidr_block           = "10.0.0.0/16"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "matts-master-vpc"
   }
 }
@@ -66,7 +66,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc_master.id
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -76,7 +76,7 @@ resource "aws_internet_gateway" "igw-oregon" {
   vpc_id = aws_vpc.vpc_master_us_west_2.id
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -88,7 +88,7 @@ resource "aws_vpc_peering_connection" "useast2-uswest2" {
   peer_region = var.region-worker
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -103,7 +103,7 @@ resource "aws_route_table" "internet_route" {
   }
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "Master-Region-RT"
   }
 }
@@ -126,7 +126,7 @@ resource "aws_route_table" "internet_route_oregon" {
   }
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "Worker-Region-RT"
   }
 }
@@ -146,7 +146,7 @@ resource "aws_security_group" "jenkins-sg-oregon" {
   description = "Allow TCP/8080 & TCP/22"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -158,7 +158,7 @@ resource "aws_security_group" "lb-sg" {
   description = "Allow 443 and traffic to Jenkins SG"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -170,7 +170,7 @@ resource "aws_security_group" "jenkins-sg" {
   description = "Allow TCP/8080 & TCP/22"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -326,7 +326,7 @@ resource "aws_key_pair" "worker-key" {
   public_key = var.worker_pub_key
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -336,7 +336,7 @@ resource "aws_key_pair" "master-key" {
   public_key = var.master_pub_key
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -355,7 +355,7 @@ resource "aws_instance" "jenkins-master" {
   ]
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "jenkins_master_tf"
   }
 
@@ -381,7 +381,7 @@ resource "aws_instance" "jenkins-worker-oregon" {
   ]
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = join("_", ["jenkins_worker_tf", count.index + 1])
   }
 
@@ -390,12 +390,34 @@ resource "aws_instance" "jenkins-worker-oregon" {
   ]
 }
 
+resource "aws_route_table" "default_route" {
+  provider = aws.us-east-2
+
+  vpc_id = aws_vpc.vpc_master.id
+
+  route {
+    gateway_id = aws_internet_gateway.igw.id
+    cidr_block = "0.0.0.0/0"
+  }
+
+  tags = {
+    "Brainboard Template" = "true"
+  }
+}
+
+resource "aws_route_table_association" "default_route_table_association" {
+  provider = aws.us-east-2
+
+  subnet_id      = aws_subnet.subnet_1.id
+  route_table_id = aws_route_table.default_route.id
+}
+
 resource "aws_route53_record" "cert_validation" {
   provider = aws.us-east-2
 
   zone_id = var.zone-id
   type    = "A"
-  name    = "jenkins.brainboard.co"
+  name    = "jenkins.project_taajk.co"
 }
 
 resource "aws_route53_record" "jenkins" {
@@ -403,7 +425,7 @@ resource "aws_route53_record" "jenkins" {
 
   zone_id = var.zone-id
   type    = "A"
-  name    = "jenkins.brainboard.co"
+  name    = "jenkins.project_taajk.co"
 
   alias {
     zone_id                = aws_lb.application-lb.zone_id
@@ -418,7 +440,7 @@ resource "aws_vpc_peering_connection_accepter" "accept_peering" {
   vpc_peering_connection_id = aws_vpc_peering_connection.useast2-uswest2.id
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
   }
 }
 
@@ -439,7 +461,7 @@ resource "aws_lb" "application-lb" {
   ]
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "Jenkins-LB"
   }
 }
@@ -463,7 +485,7 @@ resource "aws_lb_target_group" "app-lb-tg" {
   }
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "jenkins-target-group"
   }
 }
@@ -512,10 +534,10 @@ resource "aws_acm_certificate" "jenkins-lb-https" {
   provider = aws.us-east-2
 
   validation_method = "DNS"
-  domain_name       = "jenkins.brainboard.co"
+  domain_name       = "jenkins.project_taajk.co"
 
   tags = {
-    Source = "Brainboard"
+    Source = "project_taajk"
     Name   = "Jenkins-ACM"
   }
 }

@@ -14,7 +14,7 @@ terraform {
   }
 }
 
-# Brainboard aliases for AWS regions
+# project_taajk aliases for AWS regions
 provider "aws" {
   alias  = "us-west-2"
   region = "us-west-2"
