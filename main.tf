@@ -41,6 +41,7 @@ resource "aws_vpc" "default_vpc" {
   cidr_block           = "192.168.0.0/24"
 
   tags = {
+    Name                  = "default_vpc"
     "Brainboard Template" = "true"
   }
 }
@@ -154,6 +155,7 @@ resource "aws_key_pair" "default_key_pair" {
   public_key = var.public_key
 
   tags = {
+    Name                  = "default_key_pair"
     "Brainboard Template" = "true"
   }
 }
