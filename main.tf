@@ -589,7 +589,7 @@ resource "aws_route_table_association" "default_route_table_association" {
 }
 
 resource "aws_instance" "t2-bastion" {
-  provider = aws.us-east-1
+  # provider = aws.us-east-1
 
   subnet_id                   = aws_subnet.subnet_1.id
   source_dest_check           = true
