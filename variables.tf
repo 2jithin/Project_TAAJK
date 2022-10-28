@@ -1,24 +1,45 @@
-variable "private_subnet_cidr" {
-  description = "The CIDR of the private subnet."
-  type        = string
-  default     = "10.0.1.0/24"
+variable "webserver-port" {
+  type    = string
+  default = "8080"
 }
 
-variable "public_subnet_cidr" {
-  description = "The CIDR of the public subnet."
-  type        = string
-  default     = "10.0.0.0/24"
+variable "worker_pub_key" {
+  type    = string
+  default = "your key"
 }
 
-variable "vpc_cidr_block" {
-  description = "The CIDR of the main VPC."
-  type        = string
-  default     = "10.0.0.0/16"
+variable "ami" {
+  type    = string
+  default = "your-ami"
 }
 
-variable "availability_zone" {
-  description = "regionname"
-  type        = string
-  default     = "us-east-2a"
+variable "master_pub_key" {
+  type    = string
+  default = "your key"
+}
+
+variable "region-master" {
+  type    = string
+  default = "us-east-2"
+}
+
+variable "region-worker" {
+  type    = string
+  default = "us-west-2"
+}
+
+variable "workers-count" {
+  type    = number
+  default = 1
+}
+
+variable "zone-id" {
+  type    = string
+  default = "brainboard.co"
+}
+
+variable "external_ip" {
+  type    = string
+  default = "0.0.0.0/0"
 }
 

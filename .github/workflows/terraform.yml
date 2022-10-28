@@ -46,7 +46,7 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "main" , "network" , "setup-public-ip-and-subnet" ]
+    branches: [ "main" , "network" , "setup-public-ip-and-subnet" , "jenkins-Architecuture-Aws" ]
   pull_request:
 
 permissions:
