@@ -9,7 +9,7 @@ EOF
   subnet_id                   = aws_subnet.default_subnet.id
   private_ip                  = "192.168.0.28"
   monitoring                  = false
-  #key_name                    = aws_key_pair.default_key_pair.id
+  key_name                    = aws_key_pair.default_key_pair.id
   instance_type               = "t2.medium"
   ebs_optimized               = false
   availability_zone           = "us-east-1a"
@@ -147,15 +147,15 @@ resource "aws_internet_gateway" "default_gtw" {
   }
 }
 
-# resource "aws_key_pair" "default_key_pair" {
-#   provider = aws.us-east-1
+resource "aws_key_pair" "default_key_pair" {
+  provider = aws.us-east-1
 
-#   public_key = var.public_key
+  public_key = var.public_key
 
-#   tags = {
-#     "Brainboard Template" = "true"
-#   }
-# }
+  tags = {
+    "Brainboard Template" = "true"
+  }
+}
 
 resource "aws_instance" "t2-bastion" {
   provider = aws.us-east-1
@@ -163,7 +163,7 @@ resource "aws_instance" "t2-bastion" {
   subnet_id                   = aws_subnet.default_subnet.id
   source_dest_check           = true
   monitoring                  = true
-  #key_name                    = aws_key_pair.default_key_pair.id
+  key_name                    = aws_key_pair.default_key_pair.id
   instance_type               = "t2.medium"
   ebs_optimized               = false
   availability_zone           = "us-east-1a"
