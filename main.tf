@@ -38,7 +38,7 @@ resource "aws_vpc" "default_vpc" {
   instance_tenancy     = "default"
   enable_dns_support   = true
   enable_dns_hostnames = true
-  cidr_block           = "192.168.0.0/24"
+  cidr_block           = "10.0.0.0/16"
 
   tags = {
     Name                  = "default_vpc"
@@ -173,6 +173,7 @@ resource "aws_instance" "t2-bastion" {
   ami                         = var.debian_ami
 
   root_block_device {
+    iops                  = 150
     volume_type           = "gp2"
     volume_size           = 8
     delete_on_termination = true
@@ -186,7 +187,12 @@ resource "aws_instance" "t2-bastion" {
   vpc_security_group_ids = [
     aws_security_group.default_security_group.id,
   ]
+
+  depends_on = [
+    aws_security_group.default_security_group
+  ]
 }
+
 
 resource "aws_subnet" "default_subnet" {
   provider = aws.us-east-1
@@ -207,6 +213,33 @@ resource "aws_security_group" "default_security_group" {
   vpc_id      = aws_vpc.default_vpc.id
   name        = "default_security_group"
   description = "Allow whitelisted IP in"
+
+  // To Allow SSH Transport
+  ingress {
+    from_port = 22
+    protocol = "tcp"
+    to_port = 22
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // To Allow Port 80 Transport
+  ingress {
+    from_port = 80
+    protocol = ""
+    to_port = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   tags = {
     "Brainboard Template" = "true"
